@@ -1,37 +1,130 @@
-<!DOCTYPE html>
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>NGINX on Railway</title>
-    <meta name="description" content="Choo Choo!" />
+		<title>All About Mario</title>
 
-    <link rel="icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/blood.css">
 
-    <link rel="stylesheet" href="/styles.css?v=1.0" />
-  </head>
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section data-transition="fade" data-background-image="./images/IMG_6617.jpeg" data-autoslide="15000">
+					<h1>All About Me</h1>
+					<h6>By: Mario Rivas Reinoso, Grade 6th A, Number 21st</h6>
+				</section>
+				<section data-transition="slide" data-background-image="./images/IMG_6572.jpeg" data-autoslide="80000" >
+						<h1>My Family</h1>
+				</section>
+				<section data-transition="zoom" data-background-image="./images/0052.jpeg" data-autoslide="40000" >
+					<h3>My maternals grandparents</h3>
+				</section>
+				<section data-transition="concave" data-background-image="./images/IMG_6043.jpeg" data-autoslide="40000" >
+					<h3>My paternals grandparents</h3>
+				</section>
+				<section data-transition="convex" data-background-image="" data-autoslide="2500">
+					<h1>Things that I like</h1>
+				</section>
+				<section data-background-image="">
+					<h4>Coding</h4>
+					  <pre><code data-trim data-noescape>
+(require('dotenv').config();
+const  { Client, GatewayIntentBits, Collection} = require('discord.js');
+const token = process.env.TOKEN;
+const client = new Client({ intents: GatewayIntentBits.Guilds });
+const path = require('path')
+const fs = require('fs')
+const {connect, connection} = require("mongoose");
+client.commands = new Collection();
+const commandsPath = path.join(__dirname, 'commands');
+const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
 
-  <body>
-    <main>
-      <img
-        src="https://railway.app/brand/logo-light.svg"
-        alt="Railway logo"
-        class="logo"
-      />
+//DB
+connect("mongodb+srv://mario:mario@disbot.socjhmi.mongodb.net/test", {useNewUrlParser: true, useUnifiedTopology: true})
+  console.log("Conected to db")
 
-      <h1>NGINX on Railway</h1>
 
-      <p>
-        Choo Choo! This is an example of an NGINX static site running on
-        Railway.
-        <a
-          href="https://github.com/railwayapp/starters/tree/master/examples/nginx"
-          >View source</a
-        >.
-      </p>
-    </main>
+let db  = connection;
 
-    <script src="/script.js"></script>
-  </body>
+//END OF DB
+for (const file of commandFiles) {
+  const filePath = path.join(commandsPath, file);
+  const command = require(filePath);
+  // Set a new item in the Collection
+  // With the key as the command name and the value as the exported module
+  client.commands.set(command.data.name, command);
+}
+client.on('ready', () => {
+    console.log(`Logged in as ${client.user.tag}!`);
+    });
+client.on('interactionCreate', async interaction => {
+  if (!interaction.isChatInputCommand()) return;
+
+  const command = interaction.client.commands.get(interaction.commandName);
+
+  if (!command) return;
+
+  try {
+    await command.execute(interaction);
+  } catch (error) {
+    console.error(error);
+    await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+  }
+});
+
+client.login(token);)
+</code>
+</pre>
+</section>
+<section data-background-image="./images/IMG_0686.jpg">
+<h1>Playing Drums</h1>
+</section>
+<section data-background-image="">
+	<h1>The End</h1>
+</section>
+
+
+			</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script src="plugin/math/math.js"></script>
+		<script>
+						let c = confirm("Do you want to see my presentation?");
+			console.log(c)
+			if(c === false) {
+				window.location.href = "https://www.google.com";
+				alert("You Suck")
+			} else {
+				alert("Ok, let's go")
+			}
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+		Reveal.initialize({
+			autoSlide: 35000,
+			loop: true
+		  });
+		  Reveal.initialize({ slideNumber: true });
+
+			Reveal.initialize({
+				hash: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMath]
+			});
+		</script>
+		
+		
+		
+	</body>
 </html>
